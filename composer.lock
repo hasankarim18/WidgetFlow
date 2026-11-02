@@ -1,0 +1,454 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "65cc4e9d196cdc384399e8ab1917b42f",
+    "packages": [],
+    "packages-dev": [
+        {
+            "name": "arifpavel/elementor-stubs",
+            "version": "3.1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arifpavel/elementor-stubs.git",
+                "reference": "69f022cc861e29003011fff99acbb2a79f06f0eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arifpavel/elementor-stubs/zipball/69f022cc861e29003011fff99acbb2a79f06f0eb",
+                "reference": "69f022cc861e29003011fff99acbb2a79f06f0eb",
+                "shasum": ""
+            },
+            "require-dev": {
+                "ext-gettext": "*",
+                "giacocorsiglia/stubs-generator": "^0.5.0",
+                "php": "^7.1"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Arif Pavel",
+                    "email": "pavelpatiya@gmail.com"
+                }
+            ],
+            "description": "Elementor function, class, and global variable declaration stubs for easier static analysis.",
+            "homepage": "https://github.com/arifpavel/elementor-stubs",
+            "keywords": [
+                "elementor",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/arifpavel/elementor-stubs/issues",
+                "source": "https://github.com/arifpavel/elementor-stubs/tree/3.1.4.1"
+            },
+            "time": "2021-04-05T11:32:53+00:00"
+        },
+        {
+            "name": "php-stubs/acf-pro-stubs",
+            "version": "v6.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/acf-pro-stubs.git",
+                "reference": "b22454992d9651cd837439a2c1073a0955b68d94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/acf-pro-stubs/zipball/b22454992d9651cd837439a2c1073a0955b68d94",
+                "reference": "b22454992d9651cd837439a2c1073a0955b68d94",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "require-dev": {
+                "php": "~7.1 || ^8.0",
+                "php-stubs/generator": "^0.8",
+                "phpdocumentor/reflection-docblock": "^5.3"
+            },
+            "suggest": {
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "extra": {
+                "installer-paths": {
+                    "source/{$name}/": [
+                        "type:wordpress-plugin"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Advanced Custom Fields PRO stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/acf-pro-stubs",
+            "keywords": [
+                "PHPStan",
+                "acf",
+                "static analysis",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/acf-pro-stubs/issues",
+                "source": "https://github.com/php-stubs/acf-pro-stubs/tree/v6.8.2"
+            },
+            "time": "2026-06-01T12:08:34+00:00"
+        },
+        {
+            "name": "php-stubs/woocommerce-stubs",
+            "version": "v10.9.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/woocommerce-stubs.git",
+                "reference": "a569e43283b86178628beb7aa22cc34b4076b435"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/a569e43283b86178628beb7aa22cc34b4076b435",
+                "reference": "a569e43283b86178628beb7aa22cc34b4076b435",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/wordpress-stubs": "^5.3 || ^6.0 || ^7.0"
+            },
+            "require-dev": {
+                "php": "~7.1 || ~8.0",
+                "php-stubs/generator": "^0.9.0"
+            },
+            "suggest": {
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "WooCommerce function and class declaration stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/woocommerce-stubs",
+            "keywords": [
+                "PHPStan",
+                "static analysis",
+                "woocommerce",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/woocommerce-stubs/issues",
+                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v10.9.4"
+            },
+            "time": "2026-07-16T18:17:41+00:00"
+        },
+        {
+            "name": "php-stubs/woocommerce-subscriptions-stubs",
+            "version": "v8.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/woocommerce-subscriptions-stubs.git",
+                "reference": "6e225945956a40d711432a08a9f13d6cbad04922"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-subscriptions-stubs/zipball/6e225945956a40d711432a08a9f13d6cbad04922",
+                "reference": "6e225945956a40d711432a08a9f13d6cbad04922",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/woocommerce-stubs": "^10.2",
+                "php-stubs/wordpress-stubs": "^5.3 || ^6.0"
+            },
+            "require-dev": {
+                "php": "~7.4 || ~8.1",
+                "php-stubs/generator": "^0.8.0"
+            },
+            "suggest": {
+                "symfony/polyfill-php74": "Symfony polyfill backporting some PHP 7.4+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "WooCommerce Subscriptions function and class declaration stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/woocommerce-subscriptions-stubs",
+            "keywords": [
+                "PHPStan",
+                "static analysis",
+                "subscription",
+                "woocommerce",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/woocommerce-subscriptions-stubs/issues",
+                "source": "https://github.com/php-stubs/woocommerce-subscriptions-stubs/tree/v8.4.0"
+            },
+            "time": "2026-02-14T10:11:19+00:00"
+        },
+        {
+            "name": "php-stubs/wordpress-stubs",
+            "version": "v6.9.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/wordpress-stubs.git",
+                "reference": "90a9412826b9944f93b10bf41d795b5fe68abcd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/90a9412826b9944f93b10bf41d795b5fe68abcd5",
+                "reference": "90a9412826b9944f93b10bf41d795b5fe68abcd5",
+                "shasum": ""
+            },
+            "conflict": {
+                "phpdocumentor/reflection-docblock": "5.6.1"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "nikic/php-parser": "^5.5",
+                "php": "^7.4 || ^8.0",
+                "php-stubs/generator": "^0.8.6",
+                "phpdocumentor/reflection-docblock": "^6.0",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^9.5",
+                "symfony/polyfill-php80": "*",
+                "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^1.1.1",
+                "wp-coding-standards/wpcs": "3.1.0 as 2.3.0"
+            },
+            "suggest": {
+                "paragonie/sodium_compat": "Pure PHP implementation of libsodium",
+                "symfony/polyfill-php80": "Symfony polyfill backporting some PHP 8.0+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "WordPress function and class declaration stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/wordpress-stubs",
+            "keywords": [
+                "PHPStan",
+                "static analysis",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.9.4"
+            },
+            "time": "2026-05-01T20:36:01+00:00"
+        },
+        {
+            "name": "phpcompatibility/php-compatibility",
+            "version": "9.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPCompatibility/PHPCompatibility.git",
+                "reference": "9fb324479acf6f39452e0655d2429cc0d3914243"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibility/zipball/9fb324479acf6f39452e0655d2429cc0d3914243",
+                "reference": "9fb324479acf6f39452e0655d2429cc0d3914243",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3",
+                "squizlabs/php_codesniffer": "^2.3 || ^3.0.2"
+            },
+            "conflict": {
+                "squizlabs/php_codesniffer": "2.6.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "suggest": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5 || This Composer plugin will sort out the PHPCS 'installed_paths' automatically.",
+                "roave/security-advisories": "dev-master || Helps prevent installing dependencies with known security issues."
+            },
+            "type": "phpcodesniffer-standard",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Wim Godden",
+                    "homepage": "https://github.com/wimg",
+                    "role": "lead"
+                },
+                {
+                    "name": "Juliette Reinders Folmer",
+                    "homepage": "https://github.com/jrfnl",
+                    "role": "lead"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/PHPCompatibility/PHPCompatibility/graphs/contributors"
+                }
+            ],
+            "description": "A set of sniffs for PHP_CodeSniffer that checks for PHP cross-version compatibility.",
+            "homepage": "http://techblog.wimgodden.be/tag/codesniffer/",
+            "keywords": [
+                "compatibility",
+                "phpcs",
+                "standards"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPCompatibility/PHPCompatibility/issues",
+                "source": "https://github.com/PHPCompatibility/PHPCompatibility"
+            },
+            "time": "2019-12-27T09:44:58+00:00"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "version": "1.12.34",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4dd89ca7aa30fdc6760be21550d583bcc32e8476",
+                "reference": "4dd89ca7aa30fdc6760be21550d583bcc32e8476",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
+            "support": {
+                "docs": "https://phpstan.org/user-guide/getting-started",
+                "forum": "https://github.com/phpstan/phpstan/discussions",
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "security": "https://github.com/phpstan/phpstan/security/policy",
+                "source": "https://github.com/phpstan/phpstan-src"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-07-28T10:04:39+00:00"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.13.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
+                "reference": "4c378e1a528ea066890fc2397cbdd2f94eb2fc91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/4c378e1a528ea066890fc2397cbdd2f94eb2fc91",
+                "reference": "4c378e1a528ea066890fc2397cbdd2f94eb2fc91",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.3.4"
+            },
+            "bin": [
+                "bin/phpcbf",
+                "bin/phpcs"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "Former lead"
+                },
+                {
+                    "name": "Juliette Reinders Folmer",
+                    "role": "Current lead"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer/graphs/contributors"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
+            "keywords": [
+                "phpcs",
+                "standards",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPCSStandards/PHP_CodeSniffer/issues",
+                "security": "https://github.com/PHPCSStandards/PHP_CodeSniffer/security/policy",
+                "source": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
+                "wiki": "https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/PHPCSStandards",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/jrfnl",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/php_codesniffer",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/phpcsstandards",
+                    "type": "thanks_dev"
+                }
+            ],
+            "time": "2026-08-06T00:17:32+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.0"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "8.0.0"
+    },
+    "plugin-api-version": "2.6.0"
+}

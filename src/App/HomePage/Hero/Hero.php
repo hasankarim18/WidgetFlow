@@ -5,6 +5,7 @@ namespace Hasan\Widgetflow\App\HomePage\Hero;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
+use Hasan\Widgetflow\App\BasicWidget\TabStyleControls;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -43,40 +44,15 @@ class Hero extends Widget_Base
         return ['property hero', 'home', 'hero', 'widgetflow', 'wf'];
     }
 
+    use TabContentControl;
+    use TabStyleControls;
+
     protected function register_controls(): void
     {
-        $this->start_controls_section('content_section', [
-            'label' => esc_html__('Content'),
-            'tab' => Controls_Manager::TAB_CONTENT,
-        ]);
 
-        $this->add_control('title', [
-            'label' => esc_html__('Title'),
-            'type' => Controls_Manager::TEXT,
-            'dynamic' => ['active' => true],
-            'default' => esc_html__('This is hero widget'),
-            'label_block' => true,
-        ]);
+        $this->register_content_control();
+        $this->register_style_controls();
 
-        $this->end_controls_section();
-
-        $this->start_controls_section('style_section', [
-            'label' => esc_html__('Style'),
-            'tab' => Controls_Manager::TAB_STYLE,
-        ]);
-
-        $this->add_control('text_color', [
-            'label' => esc_html__('Text Color'),
-            'type' => Controls_Manager::COLOR,
-            'selectors' => ['{{WRAPPER}} .wf-basic-title' => 'color: {{VALUE}};'],
-        ]);
-
-        $this->add_group_control(Group_Control_Typography::get_type(), [
-            'name' => 'typography',
-            'selector' => '{{WRAPPER}} .wf-basic-title',
-        ]);
-
-        $this->end_controls_section();
     }
 
     protected function render(): void

@@ -169,7 +169,7 @@ class Hero extends Widget_Base
             <?php
             $types = get_terms( array(
                 'taxonomy'   => 'property_type',
-                'hide_empty' => true,
+                'hide_empty' => false,
             ) );
 
             if ( ! is_wp_error( $types ) ) :

@@ -24,7 +24,7 @@ class HeadingWidget extends Widget_Base
 
     public function get_title(): string
     {
-        return esc_html__('WF Heading', 'widgetflow');
+        return esc_html__('WFS Heading', 'widgetflow');
     }
 
     public function get_icon(): string
@@ -34,12 +34,12 @@ class HeadingWidget extends Widget_Base
 
     public function get_categories(): array
     {
-        return ['basic'];
+        return ['basic', 'properties', 'general'];
     }
 
     public function get_keywords(): array
     {
-        return ['heading', 'title', 'text', 'wf'];
+        return ['heading', 'title', 'text', 'wf', 'widgetflow'];
     }
 
     protected function register_controls(): void

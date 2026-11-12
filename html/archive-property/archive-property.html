@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse property listings by location, type, price, and status.">
+  <title>Properties for Sale and Rent | Property Directory</title>
+  <link rel="stylesheet" href="archive-property.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Property Directory home"><span class="brand-mark">P</span>Property<span class="brand-light">Directory</span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="active" href="#properties">Properties</a>
+      <a href="#agents">Agents</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="header-cta" href="#list-property">List a property</a>
+  </header>
+
+  <main>
+    <section class="archive-hero" aria-labelledby="archive-title">
+      <div class="hero-inner">
+        <p class="eyebrow">Find your next place</p>
+        <h1 id="archive-title">Explore properties</h1>
+        <p class="hero-copy">Browse homes and commercial properties across Bangladesh.</p>
+        <form class="search-bar" action="#properties" method="get">
+          <label class="search-field search-location"><span>Location</span><input type="search" name="location" placeholder="City, area, or neighborhood"></label>
+          <label class="search-field"><span>Property type</span><select name="property_type"><option value="">All property types</option><option>Apartment</option><option>Villa</option><option>House</option><option>Office</option><option>Commercial Building</option><option>Land</option></select></label>
+          <label class="search-field"><span>Listing status</span><select name="status"><option value="">For sale or rent</option><option>For sale</option><option>For rent</option></select></label>
+          <button class="search-button" type="submit"><span aria-hidden="true">⌕</span> Search</button>
+        </form>
+      </div>
+    </section>
+
+    <div class="page-shell" id="properties">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><span aria-current="page">Properties</span></nav>
+      <div class="archive-heading">
+        <div><h2>Properties in Bangladesh</h2><p>Showing <strong>1–6</strong> of <strong>48</strong> listings</p></div>
+        <div class="heading-controls">
+          <button class="mobile-filter-button" type="button">☷ <span>Filters</span></button>
+          <label class="sort-control"><span>Sort by</span><select name="sort"><option>Newest first</option><option>Price: low to high</option><option>Price: high to low</option></select></label>
+        </div>
+      </div>
+
+      <div class="archive-layout">
+        <aside class="filter-sidebar" aria-label="Property filters">
+          <div class="filter-title"><h2>Filter properties</h2><button type="reset" class="clear-filters">Clear all</button></div>
+          <form action="#properties" method="get">
+            <fieldset class="filter-group"><legend>Listing status</legend>
+              <label class="check-row"><input type="checkbox" checked><span>For sale</span><small>32</small></label>
+              <label class="check-row"><input type="checkbox"><span>For rent</span><small>16</small></label>
+              <label class="check-row"><input type="checkbox"><span>Sold</span><small>0</small></label>
+            </fieldset>
+            <fieldset class="filter-group"><legend>Property type</legend>
+              <label class="check-row"><input type="checkbox"><span>Apartment</span><small>18</small></label>
+              <label class="check-row"><input type="checkbox"><span>Villa</span><small>7</small></label>
+              <label class="check-row"><input type="checkbox"><span>House</span><small>9</small></label>
+              <label class="check-row"><input type="checkbox"><span>Office</span><small>5</small></label>
+              <label class="check-row"><input type="checkbox"><span>Land</span><small>9</small></label>
+            </fieldset>
+            <fieldset class="filter-group"><legend>Location</legend>
+              <label class="select-label" for="filter-location">City or area</label>
+              <select id="filter-location" name="property_location"><option value="">All locations</option><option>Dhaka</option><option>Chittagong</option><option>Sylhet</option><option>Khulna</option><option>Rajshahi</option></select>
+              <a class="subtle-link" href="#areas">Choose a neighborhood <span aria-hidden="true">⌄</span></a>
+            </fieldset>
+            <fieldset class="filter-group"><legend>Price range</legend>
+              <div class="price-inputs"><label><span>Minimum</span><input type="number" placeholder="৳ 0" min="0"></label><span class="range-dash">–</span><label><span>Maximum</span><input type="number" placeholder="Any"></label></div>
+            </fieldset>
+            <fieldset class="filter-group"><legend>Bedrooms</legend>
+              <div class="bedroom-options"><button type="button">Any</button><button type="button">1+</button><button type="button" class="selected">2+</button><button type="button">3+</button><button type="button">4+</button></div>
+            </fieldset>
+            <button class="apply-filters" type="submit">Show 48 properties</button>
+          </form>
+        </aside>
+
+        <section class="results-area" aria-label="Property search results">
+          <div class="active-filters"><span class="filter-chip">For sale <button type="button" aria-label="Remove For sale filter">×</button></span><button type="button" class="remove-all">Clear filters</button></div>
+          <div class="property-grid">
+            <article class="property-card">
+              <a class="card-image image-one" href="#property-pr-0001" aria-label="View Luxury 3-Bedroom Apartment in Gulshan">
+                <span class="status-badge status-for-sale">For Sale</span><span class="featured-badge">★ Featured</span><span class="image-count">▧ 12</span>
+              </a>
+              <div class="card-body"><div class="card-location">Dhaka <span>·</span> Gulshan 2</div><h3><a href="#property-pr-0001">Luxury 3-Bedroom Apartment in Gulshan</a></h3><div class="card-facts"><span>⌂ 3 beds</span><span>◫ 3 baths</span><span>1,850 sq ft</span></div><div class="card-footer"><strong>৳ 1,85,00,000</strong><a href="#property-pr-0001" aria-label="View property details">View details <span aria-hidden="true">→</span></a></div></div>
+            </article>
+            <article class="property-card">
+              <a class="card-image image-two" href="#property-pr-0002" aria-label="View Spacious Villa with Private Pool in Sylhet">
+                <span class="status-badge status-for-rent">For Rent</span><span class="image-count">▧ 8</span>
+              </a>
+              <div class="card-body"><div class="card-location">Sylhet <span>·</span> Shahjalal Upashahar</div><h3><a href="#property-pr-0002">Spacious Villa with Private Pool in Sylhet</a></h3><div class="card-facts"><span>⌂ 5 beds</span><span>◫ 4 baths</span><span>4,200 sq ft</span></div><div class="card-footer"><strong>৳ 1,20,000 <small>/ month</small></strong><a href="#property-pr-0002" aria-label="View property details">View details <span aria-hidden="true">→</span></a></div></div>
+            </article>
+            <article class="property-card">
+              <a class="card-image image-three" href="#property-pr-0003" aria-label="View Residential Plot Near Khulna City Bypass">
+                <span class="status-badge status-for-sale">For Sale</span><span class="image-count">▧ 4</span>
+              </a>
+              <div class="card-body"><div class="card-location">Khulna <span>·</span> City Bypass</div><h3><a href="#property-pr-0003">Residential Plot Near Khulna City Bypass</a></h3><div class="card-facts"><span>Land</span><span>5 decimal</span><span>Road access</span></div><div class="card-footer"><strong>৳ 35,00,000</strong><a href="#property-pr-0003" aria-label="View property details">View details <span aria-hidden="true">→</span></a></div></div>
+            </article>
+            <article class="property-card">
+              <a class="card-image image-four" href="#property-pr-0004" aria-label="View family home in Dhanmondi">
+                <span class="status-badge status-for-sale">For Sale</span><span class="image-count">▧ 10</span>
+              </a>
+              <div class="card-body"><div class="card-location">Dhaka <span>·</span> Dhanmondi</div><h3><a href="#property-pr-0004">Bright Family Home near Dhanmondi Lake</a></h3><div class="card-facts"><span>⌂ 4 beds</span><span>◫ 3 baths</span><span>2,400 sq ft</span></div><div class="card-footer"><strong>৳ 2,40,00,000</strong><a href="#property-pr-0004" aria-label="View property details">View details <span aria-hidden="true">→</span></a></div></div>
+            </article>
+            <article class="property-card">
+              <a class="card-image image-five" href="#property-pr-0005" aria-label="View modern office suite in Chittagong">
+                <span class="status-badge status-for-rent">For Rent</span><span class="image-count">▧ 6</span>
+              </a>
+              <div class="card-body"><div class="card-location">Chittagong <span>·</span> Agrabad</div><h3><a href="#property-pr-0005">Modern Office Suite in Agrabad Commercial Area</a></h3><div class="card-facts"><span>Office</span><span>1,600 sq ft</span><span>Parking</span></div><div class="card-footer"><strong>৳ 85,000 <small>/ month</small></strong><a href="#property-pr-0005" aria-label="View property details">View details <span aria-hidden="true">→</span></a></div></div>
+            </article>
+            <article class="property-card">
+              <a class="card-image image-six" href="#property-pr-0006" aria-label="View family villa in Rajshahi">
+                <span class="status-badge status-sold">Sold</span><span class="image-count">▧ 9</span>
+              </a>
+              <div class="card-body"><div class="card-location">Rajshahi <span>·</span> Padma Residential Area</div><h3><a href="#property-pr-0006">Garden Villa in a Quiet Residential Area</a></h3><div class="card-facts"><span>⌂ 4 beds</span><span>◫ 3 baths</span><span>3,100 sq ft</span></div><div class="card-footer"><strong>৳ 1,45,00,000</strong><a href="#property-pr-0006" aria-label="View property details">View details <span aria-hidden="true">→</span></a></div></div>
+            </article>
+          </div>
+          <nav class="pagination" aria-label="Property pages"><a class="page-arrow disabled" href="#previous" aria-label="Previous page">←</a><a class="current-page" href="#page-1" aria-current="page">1</a><a href="#page-2">2</a><a href="#page-3">3</a><span>…</span><a href="#page-8">8</a><a class="page-arrow" href="#next" aria-label="Next page">→</a></nav>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer"><a class="brand footer-brand" href="#home"><span class="brand-mark">P</span>Property<span class="brand-light">Directory</span></a><p>Find a place to call home.</p><span>© 2026 Property Directory</span></footer>
+</body>
+</html>

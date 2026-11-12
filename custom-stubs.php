@@ -46,4 +46,10 @@ if (!function_exists('wc_get_template_part')) {
     }
 }
 
+if (!function_exists('preg_replace')) {
+    function preg_replace()
+    {
+    }
+}
+
 // Add more template functions as needed

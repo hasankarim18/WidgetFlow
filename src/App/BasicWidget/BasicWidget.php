@@ -31,7 +31,7 @@ class BasicWidget extends Widget_Base
 
     public function get_keywords(): array
     {
-        return ['basic', 'special', 'ic'];
+        return ['basic', 'widgetflow', 'ic'];
     }
 
     use TabContentControls;

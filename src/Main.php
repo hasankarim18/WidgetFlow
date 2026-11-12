@@ -1,9 +1,12 @@
 <?php
 namespace Hasan\Widgetflow;
+
+use Hasan\Widgetflow\App\AddCategory\AddCategory;
 use Hasan\Widgetflow\App\BasicWidget\BasicWidget;
 use Hasan\Widgetflow\App\Core\ElementorNotice;
 use Hasan\Widgetflow\App\Core\WidgetRegistrar;
 use Hasan\Widgetflow\App\HeadingWidget\HeadingWidget;
+use Hasan\Widgetflow\App\LoadAssets\LoadAssets;
 use Hasan\Widgetflow\App\ThemeBuilder\ArchiveTemplateLoader;
 use Hasan\Widgetflow\App\ThemeBuilder\AssignmentsPage;
 use Hasan\Widgetflow\App\ThemeBuilder\SingleTemplateLoader;
@@ -33,6 +36,7 @@ class Main
     public function boot()
     {
 
+
         foreach ($this->modules() as $module_class) {
             (new $module_class())->register();
         }
@@ -50,11 +54,12 @@ class Main
         }
 
         return [
+            LoadAssets::class,
+            AddCategory::class,
             WidgetRegistrar::class,
             SingleTemplateLoader::class,
             AssignmentsPage::class,
-            ArchiveTemplateLoader::class
-
+            ArchiveTemplateLoader::class,
         ];
     }
 

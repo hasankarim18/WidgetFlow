@@ -2,18 +2,20 @@
 
 namespace Hasan\Widgetflow\App\HomePage\Hero;
 
-use Elementor\Controls_Manager;
-use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Image_Size;
+use Elementor\Utils;
 use Elementor\Widget_Base;
-use Hasan\Widgetflow\App\BasicWidget\TabStyleControls;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-/** Minimal example: a text setting with a small set of style controls. */
+/** Property hero: editable text, buttons and banner image + (static) search form. */
 class Hero extends Widget_Base
 {
+    use TabContentControl;
+    use TabStyleControl;
+
     public function get_name(): string
     {
         return 'wf_propery_hero';
@@ -21,7 +23,7 @@ class Hero extends Widget_Base
 
     public function get_title(): string
     {
-        return esc_html__('WF Property Hero hp');
+        return esc_html__('WF Property Hero hp', 'widgetflow');
     }
 
     public function get_style_depends(): array
@@ -44,49 +46,90 @@ class Hero extends Widget_Base
         return ['property hero', 'home', 'hero', 'widgetflow', 'wf'];
     }
 
-    use TabContentControl;
-    use TabStyleControls;
-
     protected function register_controls(): void
     {
-
         $this->register_content_control();
         $this->register_style_controls();
-
     }
 
     protected function render(): void
     {
-        $settings = $this->get_settings_for_display();
-        $title = isset($settings['title']) ? $settings['title'] : '';
+        $s = $this->get_settings_for_display();
 
-        if ('' === trim($title)) {
-            return;
+        $eyebrow       = trim((string) ($s['eyebrow'] ?? ''));
+        $title         = trim((string) ($s['title'] ?? ''));
+        $title_tag     = Utils::validate_html_tag($s['title_tag'] ?? 'h1');
+        $description   = trim((string) ($s['description'] ?? ''));
+        $primary_text  = trim((string) ($s['primary_text'] ?? ''));
+        $second_text   = trim((string) ($s['secondary_text'] ?? ''));
+        $show_caption  = 'yes' === ($s['show_caption'] ?? '');
+        $caption_title = trim((string) ($s['caption_title'] ?? ''));
+        $caption_text  = trim((string) ($s['caption_text'] ?? ''));
+        $title_id      = 'wf-hero-title-' . $this->get_id();
+
+        $has_image  = !empty($s['banner_image']['url']);
+        $image_html = $has_image ? Group_Control_Image_Size::get_attachment_image_html($s, 'banner_image') : '';
+
+        if (!empty($s['primary_link']['url'])) {
+            $this->add_link_attributes('primary_link', $s['primary_link']);
         }
+        $this->add_render_attribute('primary_link', 'class', ['wf-btn', 'wf-btn--primary']);
+
+        if (!empty($s['secondary_link']['url'])) {
+            $this->add_link_attributes('secondary_link', $s['secondary_link']);
+        }
+        $this->add_render_attribute('secondary_link', 'class', 'wf-hero__link');
         ?>
         <div class="rp_home_page_widget_wrapper">
-            <section class="wf-widget wf-hero" aria-labelledby="wf-hero-title">
+            <section class="wf-widget wf-hero"<?php echo '' !== $title ? ' aria-labelledby="' . esc_attr($title_id) . '"' : ''; ?>>
                 <div class="wf-container wf-hero__grid">
                     <div class="wf-hero__content">
-                        <p class="wf-eyebrow">Property Directory · Bangladesh</p>
-                        <h1 class="wf-hero__title" id="wf-hero-title">Find a place to call home</h1>
-                        <p class="wf-hero__text">Explore homes, apartments, land, and commercial properties in the places you
-                            want to live and work.</p>
-                        <div class="wf-hero__actions">
-                            <a class="wf-btn wf-btn--primary" href="/properties/">Browse properties <span
-                                    aria-hidden="true">→</span></a>
-                            <a class="wf-hero__link" href="#how-it-works">How it works</a>
-                        </div>
+                        <?php if ('' !== $eyebrow) : ?>
+                            <p class="wf-eyebrow"><?php echo esc_html($eyebrow); ?></p>
+                        <?php endif; ?>
+
+                        <?php if ('' !== $title) : ?>
+                            <<?php echo esc_attr($title_tag); ?> class="wf-hero__title" id="<?php echo esc_attr($title_id); ?>"><?php echo esc_html($title); ?></<?php echo esc_attr($title_tag); ?>>
+                        <?php endif; ?>
+
+                        <?php if ('' !== $description) : ?>
+                            <p class="wf-hero__text"><?php echo wp_kses_post($description); ?></p>
+                        <?php endif; ?>
+
+                        <?php if ('' !== $primary_text || '' !== $second_text) : ?>
+                            <div class="wf-hero__actions">
+                                <?php if ('' !== $primary_text) : ?>
+                                    <a <?php $this->print_render_attribute_string('primary_link'); ?>><?php echo esc_html($primary_text); ?> <span aria-hidden="true">→</span></a>
+                                <?php endif; ?>
+                                <?php if ('' !== $second_text) : ?>
+                                    <a <?php $this->print_render_attribute_string('secondary_link'); ?>><?php echo esc_html($second_text); ?></a>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
-                    <div class="wf-art" role="img" aria-label="Illustration of homes and apartments">
-                        <span class="wf-art__sun" aria-hidden="true"></span>
-                        <span class="wf-art__tower" aria-hidden="true"></span>
-                        <span class="wf-art__house" aria-hidden="true"></span>
-                        <div class="wf-art__caption">
-                            <div><strong>Homes for every next step</strong><span>Explore listings across Bangladesh</span></div>
-                            <span aria-hidden="true">⌖</span>
-                        </div>
+                    <div class="wf-art<?php echo $has_image ? ' wf-art--has-image' : ''; ?>"<?php echo $has_image ? '' : ' role="img" aria-label="' . esc_attr__('Illustration of homes and apartments', 'widgetflow') . '"'; ?>>
+                        <?php if ($has_image) : ?>
+                            <div class="wf-art__image"><?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+                        <?php else : ?>
+                            <span class="wf-art__sun" aria-hidden="true"></span>
+                            <span class="wf-art__tower" aria-hidden="true"></span>
+                            <span class="wf-art__house" aria-hidden="true"></span>
+                        <?php endif; ?>
+
+                        <?php if ($show_caption && ('' !== $caption_title || '' !== $caption_text)) : ?>
+                            <div class="wf-art__caption">
+                                <div>
+                                    <?php if ('' !== $caption_title) : ?>
+                                        <strong class="wf-art__caption-title"><?php echo esc_html($caption_title); ?></strong>
+                                    <?php endif; ?>
+                                    <?php if ('' !== $caption_text) : ?>
+                                        <span class="wf-art__caption-text"><?php echo esc_html($caption_text); ?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <span class="wf-art__caption-icon" aria-hidden="true">⌖</span>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -96,27 +139,33 @@ class Hero extends Widget_Base
                     <form class="wf-search" action="/properties/" method="get" role="search" aria-label="Search properties">
                         <input type="hidden" name="post_type" value="property">
 
-                        <label class="wf-search__field wf-search__field--wide" for="wf-search-q">
-                            <span>Location</span>
-                            <input id="wf-search-q" type="search" name="s" placeholder="City, area or keyword">
-                        </label>
+                        <label class="wf-search__field" for="wf-search-type">
+                            <span>Property Location</span>
+                            <select id="wf-search-type" name="type[]">
 
+                                <option value="">Dhaka</option>
+                                <!-- [dynamic] terms of property_type: value = slug -->
+                               <!-- taxonomy = property_location will go here  -->
+                            </select>
+                        </label>
                         <label class="wf-search__field" for="wf-search-type">
                             <span>Property type</span>
                             <select id="wf-search-type" name="type[]">
                                 <option value="">All property types</option>
                                 <!-- [dynamic] terms of property_type: value = slug -->
-                                <option value="apartment">Apartment</option>
-                                <option value="villa">Villa</option>
-                                <option value="house">House</option>
-                                <option value="office">Office</option>
-                                <option value="commercial-building">Commercial Building</option>
-                                <option value="land">Land</option>
+                               <!-- taxonomy = property_type will go here  -->
                             </select>
                         </label>
 
                         <label class="wf-search__field" for="wf-search-status">
                             <span>Looking to</span>
+                            <!-- this part is confusing it is a ACF field set to each property --
+                                        for_sale : For Sale
+for_rent : For Rent
+sold : Sold
+rented : Rented
+like this this needs to add to filter 
+                            -->
                             <select id="wf-search-status" name="status[]">
                                 <option value="">Buy or rent</option>
                                 <option value="for_sale">Buy</option>
@@ -127,6 +176,10 @@ class Hero extends Widget_Base
                         <button class="wf-search__btn" type="submit"><span aria-hidden="true">⌕</span> Search
                             properties</button>
                     </form>
+            <!-- After submitting the form it should create a link like:
+                    http://realproperty.local/properties/?status=for_sale&type=apartment&location=new-eskaton
+                    and take it to the site_ur/properties page like the url
+                -->
                 </div>
             </section>
         </div>

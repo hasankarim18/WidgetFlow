@@ -7,6 +7,15 @@
    WIDGET 1: Hero + search
    ============================================================ */
 /* --- Base (same in every widget, safe to paste more than once) --- */
+/* ============================================================
+   WIDGET 1: Hero + search
+   Text colors, typography, button colors/padding/radius, banner
+   height/radius are controlled from the Elementor panel
+   (defaults live in TabStyleControl.php). Only layout,
+   background and form styles remain here.
+   Breakpoints follow Elementor: tablet <= 1024px, mobile <= 767px.
+   ============================================================ */
+/* --- Base (same in every widget, safe to paste more than once) --- */
 .wf-widget {
   display: block;
   color: #1f2a30;
@@ -54,11 +63,6 @@
 /* --- Hero: desktop --- */
 .wf-widget .wf-eyebrow {
   margin: 0 0 8px;
-  color: #e8a33d;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
 }
 .wf-widget .wf-btn {
   min-height: 42px;
@@ -66,34 +70,17 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 15px;
   border: 0;
-  border-radius: 7px;
-  font-size: 11px;
-  font-weight: 750;
-  line-height: 1.2;
-}
-.wf-widget .wf-btn--primary {
-  color: #ffffff;
-  background: #0b5d6b;
-}
-.wf-widget .wf-btn--primary:hover,
-.wf-widget .wf-btn--primary:focus {
-  color: #ffffff;
-  background: #084b57;
 }
 
 .rp_home_page_widget_wrapper {
   position: relative;
-
-  position: relative;
   isolation: isolate;
   padding: 60px 28px 24px;
-  color: var(--white);
+  color: #ffffff;
   background:
     radial-gradient(900px 420px at 88% -10%, #0b5d6b99, transparent 60%),
-    radial-gradient(620px 320px at 4% 110%, #e8a33d1f, transparent 65%),
-    var(--midnight);
+    radial-gradient(620px 320px at 4% 110%, #e8a33d1f, transparent 65%), #0e2a35;
 }
 
 .rp_home_page_widget_wrapper::before {
@@ -116,7 +103,7 @@
   z-index: -1;
   height: 120px;
   content: "";
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath fill='%230b5d6b' fill-opacity='.24' d='M0 120V86h40V60h36v26h28V44h44v42h30V70h34v16h40V36h48v50h36V64h30v22h44V50h40v36h32V72h38v14h42V40h50v46h34V62h36v24h40V54h44v32h30V74h36v12h40V46h46v40h34V68h32v18h38h40V58h44V80h50V62h34V86h30V120z'/%3E%3C/svg%3E")
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath fill='%230b5d6b' fill-opacity='.24' d='M0 120V86h40V60h36v26h28V44h44v42h30V70h34v16h40V36h48v50h36V64h30v22h44V50h40v36h32V72h38v14h42V40h50v46h34V62h36v24h40V54h44v32h30V74h36v12h40V46h46v40h34V68h32v18h38V58h44V80h50V62h34V86h50V120z'/%3E%3C/svg%3E")
     center bottom / 100% 100% no-repeat;
 }
 
@@ -137,49 +124,51 @@
 .wf-widget .wf-hero__title {
   max-width: 530px;
   margin: 0;
-  color: #ffffff;
   font-family: inherit;
-  font-size: clamp(36px, 5vw, 54px);
-  font-weight: 700;
-  line-height: 1.03;
-  letter-spacing: -0.055em;
   text-transform: none;
 }
 .wf-widget .wf-hero__text {
   max-width: 430px;
   margin: 15px 0 21px;
-  color: #c7d7da;
-  font-size: 14px;
-  line-height: 1.7;
 }
 .wf-widget .wf-hero__actions {
   display: flex;
   align-items: center;
-  gap: 18px;
 }
 .wf-widget .wf-hero__link {
-  color: #e6f1f2;
-  font-size: 11px;
-  font-weight: 750;
   white-space: nowrap;
 }
-.wf-widget .wf-hero__link:hover {
-  color: #e8a33d;
-}
+
+/* --- Banner (height / radius come from the panel) --- */
 .wf-widget .wf-art {
-  height: 265px;
   position: relative;
   overflow: hidden;
-  border-radius: 14px;
   background: linear-gradient(160deg, #aec3bd 0%, #dce5db 48%, #92aa9e 100%);
 }
 .wf-widget .wf-art:before {
   position: absolute;
   inset: 0;
   content: "";
+  pointer-events: none;
   background:
     linear-gradient(180deg, #e8a33d33, transparent 42%),
     linear-gradient(0deg, #0e2a3560, transparent 60%);
+}
+/* Uploaded image: sits under the brand overlay so it stays on-design */
+.wf-widget .wf-art__image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.wf-widget .wf-art__image img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+}
+.wf-widget .wf-art--has-image:before {
+  z-index: 1;
 }
 .wf-widget .wf-art__sun {
   position: absolute;
@@ -229,23 +218,22 @@
 }
 .wf-widget .wf-art__caption {
   position: absolute;
+  z-index: 2;
   right: 15px;
   bottom: 13px;
   left: 15px;
   display: flex;
   justify-content: space-between;
   align-items: end;
-  color: #ffffff;
   text-shadow: 0 1px 4px #0e2a3560;
   font-size: 10px;
 }
-.wf-widget .wf-art__caption strong,
-.wf-widget .wf-art__caption div > span {
+.wf-widget .wf-art__caption-title,
+.wf-widget .wf-art__caption-text {
   display: block;
 }
-.wf-widget .wf-art__caption strong {
-  font-size: 13px;
-}
+
+/* --- Search form (unchanged; handled in the next step) --- */
 .wf-widget .wf-hero__search {
   position: relative;
   z-index: 2;
@@ -323,8 +311,8 @@
   vertical-align: -1px;
 }
 
-/* --- Hero: tablet --- */
-@media (max-width: 900px) {
+/* --- Hero: tablet (Elementor tablet <= 1024px) --- */
+@media (max-width: 1024px) {
   .wf-widget .wf-container {
     width: min(100% - 44px, 1160px);
   }
@@ -336,9 +324,6 @@
     gap: 20px;
     min-height: 270px;
     padding-bottom: 48px;
-  }
-  .wf-widget .wf-art {
-    height: 230px;
   }
   .wf-widget .wf-search {
     grid-template-columns: 1fr 1fr;
@@ -358,8 +343,8 @@
   }
 }
 
-/* --- Hero: mobile --- */
-@media (max-width: 620px) {
+/* --- Hero: mobile (Elementor mobile <= 767px) --- */
+@media (max-width: 767px) {
   .wf-widget .wf-container {
     width: min(100% - 32px, 1160px);
   }
@@ -376,18 +361,12 @@
   }
   .wf-widget .wf-hero__title {
     max-width: 440px;
-    font-size: clamp(34px, 10vw, 43px);
   }
   .wf-widget .wf-hero__text {
     max-width: 390px;
     margin: 11px 0 16px;
-    font-size: 12px;
-  }
-  .wf-widget .wf-hero__actions {
-    gap: 13px;
   }
   .wf-widget .wf-art {
-    height: 178px;
     margin-top: 23px;
   }
   .wf-widget .wf-art__tower {
@@ -421,7 +400,6 @@
     min-height: 40px;
   }
 }
-
 /* --- Hero: small phones --- */
 @media (max-width: 370px) {
   .wf-widget .wf-hero__title {

@@ -136,46 +136,68 @@ class Hero extends Widget_Base
                 <div class="wf-container wf-hero__search">
                     <!-- Submits to the property archive. Field names match the archive's URL params:
          s = keyword, type[] = property_type slug, status[] = for_sale | for_rent -->
-                    <form class="wf-search" action="/properties/" method="get" role="search" aria-label="Search properties">
-                        <input type="hidden" name="post_type" value="property">
+                  <form class="wf-search" action="<?php echo esc_url( home_url( '/properties/' ) ); ?>" method="get" role="search" aria-label="Search properties">
+    <input type="hidden" name="post_type" value="property">
 
-                        <label class="wf-search__field" for="wf-search-type">
-                            <span>Property Location</span>
-                            <select id="wf-search-type" name="type[]">
+    <label class="wf-search__field" for="wf-search-location">
+        <span>Property location</span>
+        <select id="wf-search-location" name="location">
+            <option value="">All locations</option>
+            <?php
+            $locations = get_terms( array(
+                'taxonomy'   => 'property_location',
+                'hide_empty' => true,
+            ) );
 
-                                <option value="">Dhaka</option>
-                                <!-- [dynamic] terms of property_type: value = slug -->
-                               <!-- taxonomy = property_location will go here  -->
-                            </select>
-                        </label>
-                        <label class="wf-search__field" for="wf-search-type">
-                            <span>Property type</span>
-                            <select id="wf-search-type" name="type[]">
-                                <option value="">All property types</option>
-                                <!-- [dynamic] terms of property_type: value = slug -->
-                               <!-- taxonomy = property_type will go here  -->
-                            </select>
-                        </label>
+            if ( ! is_wp_error( $locations ) ) :
+                foreach ( $locations as $location ) :
+                    ?>
+                    <option value="<?php echo esc_attr( $location->slug ); ?>">
+                        <?php echo esc_html( $location->name ); ?>
+                    </option>
+                    <?php
+                endforeach;
+            endif;
+            ?>
+        </select>
+    </label>
 
-                        <label class="wf-search__field" for="wf-search-status">
-                            <span>Looking to</span>
-                            <!-- this part is confusing it is a ACF field set to each property --
-                                        for_sale : For Sale
-for_rent : For Rent
-sold : Sold
-rented : Rented
-like this this needs to add to filter 
-                            -->
-                            <select id="wf-search-status" name="status[]">
-                                <option value="">Buy or rent</option>
-                                <option value="for_sale">Buy</option>
-                                <option value="for_rent">Rent</option>
-                            </select>
-                        </label>
+    <label class="wf-search__field" for="wf-search-type">
+        <span>Property type</span>
+        <select id="wf-search-type" name="type">
+            <option value="">All property types</option>
+            <?php
+            $types = get_terms( array(
+                'taxonomy'   => 'property_type',
+                'hide_empty' => true,
+            ) );
 
-                        <button class="wf-search__btn" type="submit"><span aria-hidden="true">⌕</span> Search
-                            properties</button>
-                    </form>
+            if ( ! is_wp_error( $types ) ) :
+                foreach ( $types as $type ) :
+                    ?>
+                    <option value="<?php echo esc_attr( $type->slug ); ?>">
+                        <?php echo esc_html( $type->name ); ?>
+                    </option>
+                    <?php
+                endforeach;
+            endif;
+            ?>
+        </select>
+    </label>
+
+    <label class="wf-search__field" for="wf-search-status">
+        <span>Looking to</span>
+        <select id="wf-search-status" name="status">
+            <option value="">Buy or rent</option>
+            <option value="for_sale">Buy</option>
+            <option value="for_rent">Rent</option>
+        </select>
+    </label>
+
+    <button class="wf-search__btn" type="submit">
+        <span aria-hidden="true">⌕</span> Search properties
+    </button>
+</form>
             <!-- After submitting the form it should create a link like:
                     http://realproperty.local/properties/?status=for_sale&type=apartment&location=new-eskaton
                     and take it to the site_ur/properties page like the url

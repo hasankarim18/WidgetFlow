@@ -12,19 +12,25 @@ class LoadAssets implements Module
 {
     public function register(): void
     {
-        error_log(WIDGETFLOW_URL . 'assets/css/single-property.css');
-        add_action(
-            'elementor/frontend/before_register_styles',
-            [$this, 'wf_plugin_register_frontend_styles']
-        );
+        add_action('wp_enqueue_scripts', [$this, 'register_styles'], 5);
+        add_action('elementor/editor/after_enqueue_styles', [$this, 'register_styles']);
+        add_action('elementor/preview/enqueue_styles', [$this, 'register_styles']);
     }
 
-    public function wf_plugin_register_frontend_styles()
+    public function register_styles(): void
     {
-        // error_log('load assets register');
         wp_register_style(
             'wf-single-property',
-            WIDGETFLOW_URL . 'assets/css/single-property.css'
+            WIDGETFLOW_URL . 'assets/css/single-property.css',
+            [],
+            WIDGETFLOW_VERSION // or filemtime(WIDGETFLOW_PATH . 'assets/css/single-property.css')
+        );
+
+        wp_register_style(
+            'wf-home-page-property',
+            WIDGETFLOW_URL . 'assets/css/home-page.css',
+            [],
+            WIDGETFLOW_VERSION
         );
     }
 }

@@ -6,6 +6,7 @@ use Hasan\Widgetflow\App\BasicWidget\BasicWidget;
 use Hasan\Widgetflow\App\Core\ElementorNotice;
 use Hasan\Widgetflow\App\Core\WidgetRegistrar;
 use Hasan\Widgetflow\App\HeadingWidget\HeadingWidget;
+use Hasan\Widgetflow\App\HomePage\HomePage;
 use Hasan\Widgetflow\App\LoadAssets\LoadAssets;
 use Hasan\Widgetflow\App\ThemeBuilder\ArchiveTemplateLoader;
 use Hasan\Widgetflow\App\ThemeBuilder\AssignmentsPage;
@@ -60,6 +61,7 @@ class Main
             SingleTemplateLoader::class,
             AssignmentsPage::class,
             ArchiveTemplateLoader::class,
+            HomePage::class
         ];
     }
 

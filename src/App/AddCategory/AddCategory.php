@@ -37,6 +37,13 @@ class AddCategory implements ContractsModule
                 'icon' => 'fa fa-plug',
             ]
         );
+        $elements_manager->add_category(
+            'property_home_page',
+            [
+                'title' => esc_html__('Propery Home Page', WF_TXT_DOMAIN),
+                'icon' => 'eicon-apps',
+            ]
+        );
         // $elements_manager->add_category(
         // 	'second-category',
         // 	[

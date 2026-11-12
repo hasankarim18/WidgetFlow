@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Property Directory | Home preview</title>
+<link rel="stylesheet" href="wf-home.css">
+<!-- Preview-only styles for the temporary header/footer. Not part of any widget. -->
+<style>
+body{margin:0;background:#FAF8F5;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.pv-header,.pv-footer{padding:16px 24px;background:#FFFFFF;color:#0E2A35;font-size:14px}
+.pv-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #E2E0DA}
+.pv-header a,.pv-footer a{color:inherit;text-decoration:none}
+.pv-logo{font-weight:700;letter-spacing:-.03em}
+.pv-nav{display:flex;gap:20px}
+.pv-footer{text-align:center;border-top:1px solid #E2E0DA;color:#5F6C73;font-size:12px}
+</style>
+</head>
+<body>
+
+<!-- Preview header (replace with your real header) -->
+<header class="pv-header">
+  <a class="pv-logo" href="/">Property Directory</a>
+  <nav class="pv-nav"><a href="/">Home</a><a href="/properties/">Properties</a><a href="/contact/">Contact</a></nav>
+</header>
+
+<main>
+<!--
+  Property Directory: home page, reference markup for 5 Elementor widgets.
+  Header and footer are intentionally left out.
+
+  Every widget root = <section class="wf-widget ..."> (the .wf-widget class carries the base reset).
+  Items marked [dynamic] are what your widget's render() should loop / output from WordPress.
+  IDs used for aria-labelledby should get the widget ID appended in PHP (e.g. wf-hero-title-<?php echo $this->get_id(); ?>).
+-->
+
+
+<!-- ======================= WIDGET 1: Hero + search ======================= -->
+<section class="wf-widget wf-hero" aria-labelledby="wf-hero-title">
+  <div class="wf-container wf-hero__grid">
+    <div class="wf-hero__content">
+      <p class="wf-eyebrow">Property Directory · Bangladesh</p>
+      <h1 class="wf-hero__title" id="wf-hero-title">Find a place to call home</h1>
+      <p class="wf-hero__text">Explore homes, apartments, land, and commercial properties in the places you want to live and work.</p>
+      <div class="wf-hero__actions">
+        <a class="wf-btn wf-btn--primary" href="/properties/">Browse properties <span aria-hidden="true">→</span></a>
+        <a class="wf-hero__link" href="#how-it-works">How it works</a>
+      </div>
+    </div>
+
+    <div class="wf-art" role="img" aria-label="Illustration of homes and apartments">
+      <span class="wf-art__sun" aria-hidden="true"></span>
+      <span class="wf-art__tower" aria-hidden="true"></span>
+      <span class="wf-art__house" aria-hidden="true"></span>
+      <div class="wf-art__caption">
+        <div><strong>Homes for every next step</strong><span>Explore listings across Bangladesh</span></div>
+        <span aria-hidden="true">⌖</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-container wf-hero__search">
+    <!-- Submits to the property archive. Field names match the archive's URL params:
+         s = keyword, type[] = property_type slug, status[] = for_sale | for_rent -->
+    <form class="wf-search" action="/properties/" method="get" role="search" aria-label="Search properties">
+      <input type="hidden" name="post_type" value="property">
+
+      <label class="wf-search__field wf-search__field--wide" for="wf-search-q">
+        <span>Location</span>
+        <input id="wf-search-q" type="search" name="s" placeholder="City, area or keyword">
+      </label>
+
+      <label class="wf-search__field" for="wf-search-type">
+        <span>Property type</span>
+        <select id="wf-search-type" name="type[]">
+          <option value="">All property types</option>
+          <!-- [dynamic] terms of property_type: value = slug -->
+          <option value="apartment">Apartment</option>
+          <option value="villa">Villa</option>
+          <option value="house">House</option>
+          <option value="office">Office</option>
+          <option value="commercial-building">Commercial Building</option>
+          <option value="land">Land</option>
+        </select>
+      </label>
+
+      <label class="wf-search__field" for="wf-search-status">
+        <span>Looking to</span>
+        <select id="wf-search-status" name="status[]">
+          <option value="">Buy or rent</option>
+          <option value="for_sale">Buy</option>
+          <option value="for_rent">Rent</option>
+        </select>
+      </label>
+
+      <button class="wf-search__btn" type="submit"><span aria-hidden="true">⌕</span> Search properties</button>
+    </form>
+  </div>
+</section>
+
+
+<!-- ======================= WIDGET 2: Latest properties ======================= -->
+<section class="wf-widget wf-section wf-latest" aria-labelledby="wf-latest-title">
+  <div class="wf-container">
+    <div class="wf-heading">
+      <div>
+        <p class="wf-kicker">A place for your next chapter</p>
+        <h2 class="wf-heading__title" id="wf-latest-title">Latest properties</h2>
+        <p class="wf-heading__desc">Recently added homes and listings to explore.</p>
+      </div>
+      <a class="wf-link" href="/properties/">View all properties <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="wf-latest__grid">
+      <!-- [dynamic] one card per property (3 by default).
+           Image modifier: wf-card__image--photo when it has a featured image (put the <img> inside),
+           otherwise the drawn placeholder; optional --villa or --land variant by property type.
+           Badge modifier: wf-badge--sale | --rent | --sold | --rented. -->
+      <article class="wf-card">
+        <a class="wf-card__image" href="/property/pr-0001/" aria-label="View Luxury 3-Bedroom Apartment in Gulshan">
+          <span class="wf-badge wf-badge--sale">For sale</span>
+        </a>
+        <div class="wf-card__body">
+          <p class="wf-card__location">Dhaka <span>·</span> Gulshan</p>
+          <h3 class="wf-card__title"><a href="/property/pr-0001/">Luxury 3-Bedroom Apartment in Gulshan</a></h3>
+          <div class="wf-card__facts"><span>3 bedrooms</span><span>3 bathrooms</span><span>1,850 sq ft</span></div>
+          <div class="wf-card__footer">
+            <strong class="wf-card__price">৳ 1,85,00,000 <small>Negotiable</small></strong>
+            <a class="wf-card__link" href="/property/pr-0001/">View details <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="wf-card">
+        <a class="wf-card__image wf-card__image--villa" href="/property/pr-0002/" aria-label="View Spacious Villa with Private Pool in Sylhet">
+          <span class="wf-badge wf-badge--rent">For rent</span>
+        </a>
+        <div class="wf-card__body">
+          <p class="wf-card__location">Sylhet <span>·</span> Sylhet City</p>
+          <h3 class="wf-card__title"><a href="/property/pr-0002/">Spacious Villa with Private Pool</a></h3>
+          <div class="wf-card__facts"><span>5 bedrooms</span><span>4 bathrooms</span><span>4,200 sq ft</span></div>
+          <div class="wf-card__footer">
+            <strong class="wf-card__price">৳ 1,20,000 <small>/ month</small></strong>
+            <a class="wf-card__link" href="/property/pr-0002/">View details <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="wf-card">
+        <a class="wf-card__image wf-card__image--land" href="/property/pr-0003/" aria-label="View Residential Plot Near Khulna City Bypass">
+          <span class="wf-badge wf-badge--sale">For sale</span>
+        </a>
+        <div class="wf-card__body">
+          <p class="wf-card__location">Khulna <span>·</span> City Bypass</p>
+          <h3 class="wf-card__title"><a href="/property/pr-0003/">Residential Plot Near Khulna City Bypass</a></h3>
+          <div class="wf-card__facts"><span>Land</span><span>5 decimal</span><span>Residential</span></div>
+          <div class="wf-card__footer">
+            <strong class="wf-card__price">৳ 35,00,000 <small>Fixed</small></strong>
+            <a class="wf-card__link" href="/property/pr-0003/">View details <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================= WIDGET 3: Browse by property type ======================= -->
+<section class="wf-widget wf-section wf-types" aria-labelledby="wf-types-title">
+  <div class="wf-container">
+    <div class="wf-heading">
+      <div>
+        <p class="wf-kicker">Start with what you need</p>
+        <h2 class="wf-heading__title" id="wf-types-title">Browse by property type</h2>
+        <p class="wf-heading__desc">Explore the kinds of places available in the directory.</p>
+      </div>
+    </div>
+
+    <div class="wf-types__grid">
+      <!-- [dynamic] one link per property_type term (get_term_link) -->
+      <a class="wf-type" href="/property_type/apartment/"><span class="wf-type__icon" aria-hidden="true">⌂</span><span class="wf-type__name">Apartments <span aria-hidden="true">→</span></span></a>
+      <a class="wf-type" href="/property_type/villa/"><span class="wf-type__icon" aria-hidden="true">⌂</span><span class="wf-type__name">Villas <span aria-hidden="true">→</span></span></a>
+      <a class="wf-type" href="/property_type/house/"><span class="wf-type__icon" aria-hidden="true">⌂</span><span class="wf-type__name">Houses <span aria-hidden="true">→</span></span></a>
+      <a class="wf-type" href="/property_type/office/"><span class="wf-type__icon" aria-hidden="true">▦</span><span class="wf-type__name">Offices <span aria-hidden="true">→</span></span></a>
+      <a class="wf-type" href="/property_type/commercial-building/"><span class="wf-type__icon" aria-hidden="true">▦</span><span class="wf-type__name">Commercial <span aria-hidden="true">→</span></span></a>
+      <a class="wf-type" href="/property_type/land/"><span class="wf-type__icon" aria-hidden="true">▱</span><span class="wf-type__name">Land <span aria-hidden="true">→</span></span></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================= WIDGET 4: Popular locations ======================= -->
+<section class="wf-widget wf-section wf-locations" aria-labelledby="wf-locations-title">
+  <div class="wf-container">
+    <div class="wf-heading">
+      <div>
+        <p class="wf-kicker">Find your area</p>
+        <h2 class="wf-heading__title" id="wf-locations-title">Explore popular locations</h2>
+        <p class="wf-heading__desc">Browse listings in cities across Bangladesh.</p>
+      </div>
+      <a class="wf-link" href="/properties/">All locations <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="wf-locations__grid">
+      <!-- [dynamic] one link per property_location term.
+           Card colours rotate automatically (nth-child). With a term image, add the class
+           wf-location--photo and an inline style="background-image:url(...)". -->
+      <a class="wf-location" href="/property_location/dhaka/"><span>Dhaka <b aria-hidden="true">→</b></span></a>
+      <a class="wf-location" href="/property_location/chittagong/"><span>Chittagong <b aria-hidden="true">→</b></span></a>
+      <a class="wf-location" href="/property_location/sylhet/"><span>Sylhet <b aria-hidden="true">→</b></span></a>
+      <a class="wf-location" href="/property_location/khulna/"><span>Khulna <b aria-hidden="true">→</b></span></a>
+      <a class="wf-location" href="/property_location/rajshahi/"><span>Rajshahi <b aria-hidden="true">→</b></span></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================= WIDGET 5: Owner call-to-action ======================= -->
+<section class="wf-widget wf-owner" aria-labelledby="wf-owner-title">
+  <div class="wf-container">
+    <div class="wf-owner__card">
+      <div>
+        <p class="wf-kicker">For property owners</p>
+        <h2 class="wf-owner__title" id="wf-owner-title">Ready to list your property?</h2>
+        <p class="wf-owner__text">Connect your listing with people looking for a place like yours.</p>
+      </div>
+      <a class="wf-btn wf-btn--primary" href="/contact/">Get in touch <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Preview footer (replace with your real footer) -->
+<footer class="pv-footer">
+  <p style="margin:0">© 2026 Property Directory · Web Dev Solutions</p>
+</footer>
+
+</body>
+</html>

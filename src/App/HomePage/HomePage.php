@@ -3,6 +3,7 @@ namespace Hasan\Widgetflow\App\HomePage;
 
 use Hasan\Widgetflow\App\HomePage\Hero\Hero;
 use Hasan\Widgetflow\App\HomePage\LatestProperties\LatestProperties;
+use Hasan\Widgetflow\App\HomePage\PropertyType\PropertyType;
 use Hasan\Widgetflow\Contracts\Module;
 
 if (!defined('ABSPATH')) {
@@ -20,6 +21,7 @@ class HomePage implements Module
     {
         $widget_manager->register(new Hero());
         $widget_manager->register(new LatestProperties());
+        $widget_manager->register(new PropertyType());
     }
 }
 

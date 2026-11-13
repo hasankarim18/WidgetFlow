@@ -1,0 +1,34 @@
+<?php
+
+
+namespace Hasan\Widgetflow\App\HomePage\PropertyType;
+
+use Elementor\Controls_Manager;
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+
+trait TabContentControl
+{
+    protected function register_content_controls()
+    {
+        $this->start_controls_section('content_section', [
+            'label' => esc_html__('Content'),
+            'tab' => Controls_Manager::TAB_CONTENT,
+        ]);
+
+        $this->add_control('title', [
+            'label' => esc_html__('Title'),
+            'type' => Controls_Manager::TEXT,
+            'dynamic' => ['active' => true],
+            'default' => esc_html__('Your title here'),
+            'label_block' => true,
+        ]);
+
+        $this->end_controls_section();
+
+    }
+
+}

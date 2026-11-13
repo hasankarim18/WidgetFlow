@@ -116,7 +116,7 @@ class LatestProperties extends Widget_Base
         $properties = new WP_Query([
             'post_type' => 'property',
             'post_status' => 'publish',
-            'posts_per_page' => 10, // change as needed (or take from widget settings)
+            'posts_per_page' => 6, // change as needed (or take from widget settings)
             'orderby' => 'date',
             'order' => 'DESC',
         ]);

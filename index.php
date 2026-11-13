@@ -28,7 +28,7 @@ if (!defined('ABSPATH')) {
 define('WIDGETFLOW_PATH', plugin_dir_path(__FILE__));
 define('WIDGETFLOW_URL', plugin_dir_url(__FILE__));
 define('WF_TXT_DOMAIN', 'widgetflow');
-define('WIDGETFLOW_VERSION', '1.0');
+define('WIDGETFLOW_VERSION', '1.0.1');
 
 if (!class_exists(Main::class) && is_readable(__DIR__) . './vendor/autoload.php') {
     require_once __DIR__ . '/vendor/autoload.php';

@@ -5,17 +5,18 @@ namespace Hasan\Widgetflow\App\HomePage\LatestProperties;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
-
+use WP_Query; // FIX 1: classes are not auto-resolved to the global namespace
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-/** Minimal example: a text setting with a small set of style controls. */
+/** Latest properties slider: queries CPT "property" and renders ACF fields. */
 class LatestProperties extends Widget_Base
 {
     use TabContentControl;
     use TabStyleControl;
+
     public function get_name(): string
     {
         return 'wf_hp_latest_properties';
@@ -33,7 +34,7 @@ class LatestProperties extends Widget_Base
 
     public function get_style_depends(): array
     {
-        return ['wf-home-css', 'swiper',];
+        return ['wf-home-css', 'swiper'];
     }
 
     public function get_script_depends()
@@ -51,18 +52,93 @@ class LatestProperties extends Widget_Base
         return ['wf', 'latest properties', 'hp', 'widgetflow'];
     }
 
-
     protected function register_controls(): void
     {
-
         $this->register_content_controls();
         $this->register_style_controls();
+    }
 
+    /**
+     * FIX 2: helpers are methods now, not functions declared inside render(),
+     * so rendering the widget twice no longer causes "Cannot redeclare function".
+     */
+
+    // ACF select can return value, label or array depending on "Return Format".
+    private function select_value(string $field_name, int $post_id)
+    {
+        $val = function_exists('get_field') ? get_field($field_name, $post_id) : '';
+        if (is_array($val)) {
+            return isset($val['value']) ? $val['value'] : '';
+        }
+        return $val;
+    }
+
+    // Deepest assigned term of property_location + its parents => ["Dhaka", "Gulshan"]
+    private function get_location_chain(int $post_id): array
+    {
+        $terms = get_the_terms($post_id, 'property_location');
+        if (empty($terms) || is_wp_error($terms)) {
+            return [];
+        }
+
+        $deepest = null;
+        $deepest_depth = -1;
+
+        foreach ($terms as $term) {
+            $depth = count(get_ancestors($term->term_id, 'property_location', 'taxonomy'));
+            if ($depth > $deepest_depth) {
+                $deepest_depth = $depth;
+                $deepest = $term;
+            }
+        }
+
+        if (!$deepest) {
+            return [];
+        }
+
+        // get_ancestors returns nearest parent first, so reverse to get top -> bottom
+        $ancestor_ids = array_reverse(get_ancestors($deepest->term_id, 'property_location', 'taxonomy'));
+
+        $chain = [];
+        foreach ($ancestor_ids as $id) {
+            $t = get_term($id, 'property_location');
+            if ($t && !is_wp_error($t)) {
+                $chain[] = $t->name;
+            }
+        }
+        $chain[] = $deepest->name;
+
+        return $chain;
     }
 
     protected function render(): void
     {
+        $properties = new WP_Query([
+            'post_type' => 'property',
+            'post_status' => 'publish',
+            'posts_per_page' => 10, // change as needed (or take from widget settings)
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ]);
 
+        $status_labels = [
+            'for_sale' => 'For Sale',
+            'for_rent' => 'For Rent',
+            'sold' => 'Sold',
+            'rented' => 'Rented',
+        ];
+        $status_classes = [
+            'for_sale' => 'wf-badge--sale',
+            'for_rent' => 'wf-badge--rent',
+            'sold' => 'wf-badge--sold',
+            'rented' => 'wf-badge--rented',
+        ];
+        $unit_labels = [
+            'sqft' => 'Sq Ft',
+            'sqm' => 'Sq M',
+            'acre' => 'Acre',
+            'decimal' => 'Decimal',
+        ];
         ?>
         <!-- ======================= WIDGET 2: Latest properties ======================= -->
         <section class="wf-widget wf-section wf-latest" aria-labelledby="wf-latest-title">
@@ -84,158 +160,122 @@ class LatestProperties extends Widget_Base
                     </div>
                 </div>
 
-                <div class="wf-latest__slider swiper">
-                    <div class="swiper-wrapper">
-                        <!-- [dynamic] one .swiper-slide per property (6 by default; use a number control).
-             Image modifier: wf-card__image--photo when it has a featured image (put the <img> inside),
-             otherwise the drawn placeholder; optional --villa or --land variant by property type.
-             Badge modifier: wf-badge--sale | --rent | --sold | --rented. -->
-                        <div class="swiper-slide">
-                            <article class="wf-card">
-                                <a class="wf-card__image" href="/property/pr-0001/"
-                                    aria-label="View Luxury 3-Bedroom Apartment in Gulshan">
-                                    <span class="wf-badge wf-badge--sale">For sale</span><span
-                                        class="wf-card__type">Apartment</span>
-                                </a>
-                                <div class="wf-card__body">
-                                    <p class="wf-card__location">Dhaka <span>·</span> Gulshan</p>
-                                    <h3 class="wf-card__title"><a href="/property/pr-0001/">Luxury 3-Bedroom Apartment in
-                                            Gulshan</a></h3>
-                                    <ul class="wf-card__facts">
-                                        <li><b>3</b>Beds</li>
-                                        <li><b>3</b>Baths</li>
-                                        <li><b>1,850</b>Sq ft</li>
-                                    </ul>
-                                    <div class="wf-card__footer">
-                                        <strong class="wf-card__price">৳ 1,85,00,000 <small>Negotiable</small></strong>
-                                        <a class="wf-card__link" href="/property/pr-0001/">Details <span
-                                                aria-hidden="true">→</span></a>
-                                    </div>
+                <?php if ($properties->have_posts()): ?>
+                    <div class="wf-latest__slider swiper">
+                        <div class="swiper-wrapper">
+                            <?php
+                            while ($properties->have_posts()):
+                                $properties->the_post();
+                                $pid = get_the_ID();
+
+                                // ACF fields
+                                $status = $this->select_value('property_status', $pid);   // for_sale|for_rent|sold|rented
+                                $bedrooms = get_field('property_bedrooms', $pid);
+                                $bathrooms = get_field('property_bathrooms', $pid);
+                                $area = get_field('property_area', $pid);
+                                $area_unit = $this->select_value('area_unit', $pid);      // sqft|sqm|acre|decimal
+                                $price = get_field('property_price', $pid);
+                                $price_type = $this->select_value('price_type', $pid);    // fixed|negotiable
+                
+                                // Taxonomies
+                                $type_terms = get_the_terms($pid, 'property_type');
+                                $type_name = (!empty($type_terms) && !is_wp_error($type_terms)) ? $type_terms[0]->name : '';
+
+                                $location_chain = $this->get_location_chain($pid);
+
+                                $badge_class = isset($status_classes[$status]) ? $status_classes[$status] : '';
+                                $badge_label = isset($status_labels[$status]) ? $status_labels[$status] : '';
+                                $unit_label = isset($unit_labels[$area_unit]) ? $unit_labels[$area_unit] : '';
+                                $is_closed = in_array($status, ['sold', 'rented'], true);
+                                $price_format = ($price !== '' && $price !== null) ? number_format_i18n((float) $price) : '';
+
+                                $permalink = get_permalink();
+                                $title = get_the_title();
+                                ?>
+                                <div class="swiper-slide">
+                                    <article class="wf-card">
+                                        <a class="wf-card__image" href="<?php echo esc_url($permalink); ?>"
+                                            aria-label="<?php echo esc_attr(sprintf('View %s', $title)); ?>">
+
+                                            <?php if (has_post_thumbnail()) {
+                                                the_post_thumbnail('large', ['loading' => 'lazy']);
+                                            } ?>
+
+                                            <?php if ($badge_label): ?>
+                                                <span class="wf-badge <?php echo esc_attr($badge_class); ?>">
+                                                    <?php echo esc_html($badge_label); ?>
+                                                </span>
+                                            <?php endif; ?>
+
+                                            <?php if ($type_name): ?>
+                                                <span class="wf-card__type"><?php echo esc_html($type_name); ?></span>
+                                            <?php endif; ?>
+                                        </a>
+
+                                        <div class="wf-card__body">
+                                            <?php if (!empty($location_chain)): ?>
+                                                <p class="wf-card__location">
+                                                    <?php echo implode(' <span>·</span> ', array_map('esc_html', $location_chain)); ?>
+                                                </p>
+                                            <?php endif; ?>
+
+                                            <h3 class="wf-card__title">
+                                                <a href="<?php echo esc_url($permalink); ?>"><?php echo esc_html($title); ?></a>
+                                            </h3>
+
+                                            <ul class="wf-card__facts">
+                                                <?php if ($bedrooms !== '' && $bedrooms !== null): ?>
+                                                    <li><b><?php echo esc_html($bedrooms); ?></b> Beds</li>
+                                                <?php endif; ?>
+                                                <?php if ($bathrooms !== '' && $bathrooms !== null): ?>
+                                                    <li><b><?php echo esc_html($bathrooms); ?></b> Baths</li>
+                                                <?php endif; ?>
+                                                <?php if ($area !== '' && $area !== null): ?>
+                                                    <li><b><?php echo esc_html($area); ?></b> <?php echo esc_html($unit_label); ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+
+                                            <div class="wf-card__footer">
+                                                <strong class="wf-card__price">
+                                                    <?php if ($is_closed): ?>
+                                                        <!-- sold / rented: label + struck-through price -->
+                                                        <span class="wf-card__sold"><?php echo esc_html($badge_label); ?></span>
+                                                        <?php if ($price_format): ?>
+                                                            <del><span>৳ </span><span><?php echo esc_html($price_format); ?></span></del>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                        <?php if ($price_format): ?>
+                                                            <span>৳ </span><span><?php echo esc_html($price_format); ?></span>
+                                                            <?php if ('for_rent' === $status): ?>
+                                                                <span>/month</span>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+
+                                                        <?php if ('negotiable' === $price_type): ?>
+                                                            <small>Negotiable</small>
+                                                        <?php elseif ('fixed' === $price_type): ?>
+                                                            <small>Fixed Price</small>
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </strong>
+
+                                                <a class="wf-card__link" href="<?php echo esc_url($permalink); ?>">
+                                                    Details <span aria-hidden="true">→</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </article>
                                 </div>
-                            </article>
-                        </div>
-                        <div class="swiper-slide">
-                            <article class="wf-card">
-                                <a class="wf-card__image wf-card__image--villa" href="/property/pr-0002/"
-                                    aria-label="View Spacious Villa with Private Pool">
-                                    <span class="wf-badge wf-badge--rent">For rent</span><span
-                                        class="wf-card__type">Villa</span>
-                                </a>
-                                <div class="wf-card__body">
-                                    <p class="wf-card__location">Sylhet <span>·</span> Sylhet City</p>
-                                    <h3 class="wf-card__title"><a href="/property/pr-0002/">Spacious Villa with Private Pool</a>
-                                    </h3>
-                                    <ul class="wf-card__facts">
-                                        <li><b>5</b>Beds</li>
-                                        <li><b>4</b>Baths</li>
-                                        <li><b>4,200</b>Sq ft</li>
-                                    </ul>
-                                    <div class="wf-card__footer">
-                                        <strong class="wf-card__price">৳ 1,20,000 <small>/ month</small></strong>
-                                        <a class="wf-card__link" href="/property/pr-0002/">Details <span
-                                                aria-hidden="true">→</span></a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <div class="swiper-slide">
-                            <article class="wf-card">
-                                <a class="wf-card__image wf-card__image--land" href="/property/pr-0003/"
-                                    aria-label="View Residential Plot Near Khulna City Bypass">
-                                    <span class="wf-badge wf-badge--sale">For sale</span><span class="wf-card__type">Land</span>
-                                </a>
-                                <div class="wf-card__body">
-                                    <p class="wf-card__location">Khulna <span>·</span> City Bypass</p>
-                                    <h3 class="wf-card__title"><a href="/property/pr-0003/">Residential Plot Near Khulna City
-                                            Bypass</a></h3>
-                                    <ul class="wf-card__facts">
-                                        <li><b>5</b>Decimal</li>
-                                        <li><b>—</b>Roads</li>
-                                        <li><b>Res.</b>Use</li>
-                                    </ul>
-                                    <div class="wf-card__footer">
-                                        <strong class="wf-card__price">৳ 35,00,000 <small>Fixed</small></strong>
-                                        <a class="wf-card__link" href="/property/pr-0003/">Details <span
-                                                aria-hidden="true">→</span></a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <div class="swiper-slide">
-                            <article class="wf-card">
-                                <a class="wf-card__image" href="/property/pr-0004/"
-                                    aria-label="View Modern Office Space in Dhanmondi">
-                                    <span class="wf-badge wf-badge--rent">For rent</span><span
-                                        class="wf-card__type">Office</span>
-                                </a>
-                                <div class="wf-card__body">
-                                    <p class="wf-card__location">Dhaka <span>·</span> Dhanmondi</p>
-                                    <h3 class="wf-card__title"><a href="/property/pr-0004/">Modern Office Space in Dhanmondi</a>
-                                    </h3>
-                                    <ul class="wf-card__facts">
-                                        <li><b>—</b>Rooms</li>
-                                        <li><b>2</b>Baths</li>
-                                        <li><b>2,400</b>Sq ft</li>
-                                    </ul>
-                                    <div class="wf-card__footer">
-                                        <strong class="wf-card__price">৳ 85,000 <small>/ month</small></strong>
-                                        <a class="wf-card__link" href="/property/pr-0004/">Details <span
-                                                aria-hidden="true">→</span></a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <div class="swiper-slide">
-                            <article class="wf-card">
-                                <a class="wf-card__image wf-card__image--villa" href="/property/pr-0005/"
-                                    aria-label="View Family House Near Khulshi Hill">
-                                    <span class="wf-badge wf-badge--sale">For sale</span><span
-                                        class="wf-card__type">House</span>
-                                </a>
-                                <div class="wf-card__body">
-                                    <p class="wf-card__location">Chittagong <span>·</span> Khulshi</p>
-                                    <h3 class="wf-card__title"><a href="/property/pr-0005/">Family House Near Khulshi Hill</a>
-                                    </h3>
-                                    <ul class="wf-card__facts">
-                                        <li><b>4</b>Beds</li>
-                                        <li><b>3</b>Baths</li>
-                                        <li><b>2,900</b>Sq ft</li>
-                                    </ul>
-                                    <div class="wf-card__footer">
-                                        <strong class="wf-card__price">৳ 2,40,00,000 <small>Negotiable</small></strong>
-                                        <a class="wf-card__link" href="/property/pr-0005/">Details <span
-                                                aria-hidden="true">→</span></a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <div class="swiper-slide">
-                            <article class="wf-card">
-                                <a class="wf-card__image" href="/property/pr-0006/"
-                                    aria-label="View Bright 2-Bedroom Apartment in Uttara">
-                                    <span class="wf-badge wf-badge--rent">For rent</span><span
-                                        class="wf-card__type">Apartment</span>
-                                </a>
-                                <div class="wf-card__body">
-                                    <p class="wf-card__location">Dhaka <span>·</span> Uttara</p>
-                                    <h3 class="wf-card__title"><a href="/property/pr-0006/">Bright 2-Bedroom Apartment in
-                                            Uttara</a></h3>
-                                    <ul class="wf-card__facts">
-                                        <li><b>2</b>Beds</li>
-                                        <li><b>2</b>Baths</li>
-                                        <li><b>1,100</b>Sq ft</li>
-                                    </ul>
-                                    <div class="wf-card__footer">
-                                        <strong class="wf-card__price">৳ 38,000 <small>/ month</small></strong>
-                                        <a class="wf-card__link" href="/property/pr-0006/">Details <span
-                                                aria-hidden="true">→</span></a>
-                                    </div>
-                                </div>
-                            </article>
+                                <?php
+                            endwhile;
+                            wp_reset_postdata();
+                            ?>
                         </div>
                     </div>
-                </div>
-                <div class="wf-latest__dots" aria-hidden="false"></div>
+                    <div class="wf-latest__dots" aria-hidden="false"></div>
+                <?php else: ?>
+                    <p class="wf-empty"><?php echo esc_html__('No property found'); ?></p>
+                <?php endif; ?>
             </div>
         </section>
         <?php

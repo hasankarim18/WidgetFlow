@@ -68,7 +68,51 @@ class PropertyType extends Widget_Base
                     </div>
                 </div>
                 <!-- property loop -->
+                <?php
+                $types = get_terms([
+                    'taxonomy' => 'property_type',
+                    'hide_empty' => false,
+                    'orderby' => 'name',
+                    'order' => 'ASC'
+                ]);
+                // Icon per term slug; anything not listed falls back to the default.
+                $type_icons = array(
+                    'apartment' => '⌂',
+                    'villa' => '⌂',
+                    'house' => '⌂',
+                    'office' => '▦',
+                    'commercial-building' => '▦',
+                    'land' => '▱',
+                );
+                $default_icon = '⌂';
 
+                ?>
+
+                <?php
+                if (!empty($types) && !is_wp_error($types)) {
+                    ?>
+                    <div class="wf-types__grid">
+                        <?php foreach ($types as $type):
+                            $link = get_term_link($type);
+                            if (is_wp_error($link)) {
+                                continue;
+                            }
+                            $icon = $type_icons[$type->slug] ?? $default_icon;
+                            ?>
+                            <a class="wf-type" href="<?php echo esc_url($link); ?>"><span class="wf-type__icon" aria-hidden="true">
+                                    <?php echo esc_html($icon); ?>
+                                </span><span class="wf-type__name">
+                                    <?php echo esc_html($type->name); ?> <span aria-hidden="true">→</span></span></a>
+                            <?php
+
+                        endforeach; ?>
+
+
+                    </div>
+                    <?php
+                }
+
+                ?>
 
                 <!-- property loop ends -->
 
